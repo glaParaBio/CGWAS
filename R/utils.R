@@ -726,23 +726,25 @@ nullcorrection <- function(isimup, nam, cgwasenv) {
        width = 3000, height = 3000, res = 600)
   par(mar = c(3.5, 3.5, 1, 1))
 
-  plot(NA,
-       xlim = c(0, max(-log10(nulpm[,2]))),
-       ylim = c(0, max(c(-log10(infm[1, 1]), -log10(nulpm[1, 1]), -log10(nulm[1, 1])))),
-       xlab = expression(paste("Expected   ", -Log[10](italic(p)))),
-       ylab = expression(paste("Observed   ", -Log[10](italic(p)))),
-       mgp = c(2, 0.7, 0), las = 1, cex.axis = 0.85, tck = -0.015)
-  lines(-log10(nulpm[,2]), -log10(infm[,1]), lwd = 1.8, col = "grey75", lty = 3)
-  points(-log10(nulpm[,2]), -log10(infm[,2]), pch = 20, col = "grey75", cex = 0.6)
-  lines(-log10(nulpm[,2]), -log10(infm[,3]), lwd = 1.8, col = "grey75", lty = 3)
-  lines(-log10(nulpm[,2]), -log10(nulpm[,1]), lwd = 1.8, col = "black", lty = 3)
-  lines(-log10(nulpm[,2]), -log10(nulpm[,3]), lwd = 1.8, col = "black", lty = 3)
-  lines(-log10(nulpm[,2]), -log10(nulm[,1]), lwd = 1.8, col = "#FD9001", lty = 3)
-  points(-log10(nulpm[,2]), -log10(nulm[,2]), pch = 20, col = "#FD9001", cex = 0.6)
-  lines(-log10(nulpm[,2]), -log10(nulm[,3]), lwd = 1.8, col = "#FD9001", lty = 3)
-  lines(c(-log10(qbeta(0.5, cgwasenv$.IND_SNP_N+1, 1)), -log10(qbeta(0.5, 1, cgwasenv$.IND_SNP_N+1))),
-        c(-log10(qbeta(0.5, cgwasenv$.IND_SNP_N+1, 1)), -log10(qbeta(0.5, 1, cgwasenv$.IND_SNP_N+1))),
-        col = "black")
+  try({
+      plot(NA,
+           xlim = c(0, max(-log10(nulpm[,2]), na.rm = TRUE)),
+           ylim = c(0, max(c(-log10(infm[1, 1]), -log10(nulpm[1, 1]), -log10(nulm[1, 1])), na.rm = TRUE)),
+           xlab = expression(paste("Expected   ", -Log[10](italic(p)))),
+           ylab = expression(paste("Observed   ", -Log[10](italic(p)))),
+           mgp = c(2, 0.7, 0), las = 1, cex.axis = 0.85, tck = -0.015)
+      lines(-log10(nulpm[,2]), -log10(infm[,1]), lwd = 1.8, col = "grey75", lty = 3)
+      points(-log10(nulpm[,2]), -log10(infm[,2]), pch = 20, col = "grey75", cex = 0.6)
+      lines(-log10(nulpm[,2]), -log10(infm[,3]), lwd = 1.8, col = "grey75", lty = 3)
+      lines(-log10(nulpm[,2]), -log10(nulpm[,1]), lwd = 1.8, col = "black", lty = 3)
+      lines(-log10(nulpm[,2]), -log10(nulpm[,3]), lwd = 1.8, col = "black", lty = 3)
+      lines(-log10(nulpm[,2]), -log10(nulm[,1]), lwd = 1.8, col = "#FD9001", lty = 3)
+      points(-log10(nulpm[,2]), -log10(nulm[,2]), pch = 20, col = "#FD9001", cex = 0.6)
+      lines(-log10(nulpm[,2]), -log10(nulm[,3]), lwd = 1.8, col = "#FD9001", lty = 3)
+      lines(c(-log10(qbeta(0.5, cgwasenv$.IND_SNP_N+1, 1)), -log10(qbeta(0.5, 1, cgwasenv$.IND_SNP_N+1))),
+            c(-log10(qbeta(0.5, cgwasenv$.IND_SNP_N+1, 1)), -log10(qbeta(0.5, 1, cgwasenv$.IND_SNP_N+1))),
+            col = "black")
+  })
   dev.off()
 
   return(md)
