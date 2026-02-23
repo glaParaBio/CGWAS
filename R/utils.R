@@ -706,7 +706,7 @@ nullcorrection <- function(isimup, nam, cgwasenv) {
   for (i in 1:rsn) {
     swwm[,i] <- swwm[order(swwm[,i]), i]
   }
-  infm <- t(apply(swwm[ssid,], 1, quantile, probs = c(0.05, 0.5, 0.95)))
+  infm <- t(apply(swwm[ssid,], 1, quantile, probs = c(0.05, 0.5, 0.95), na.rm = TRUE))
 
   tpq <- seq(1/cgwasenv$.IND_SNP_N, 1-1/cgwasenv$.IND_SNP_N, length.out = cgwasenv$.IND_SNP_N)
   swwm <- matrix(isimup[sample(1:sn, sn)], ncol = rsn)
@@ -716,7 +716,7 @@ nullcorrection <- function(isimup, nam, cgwasenv) {
   ct <- tpcor2(tpq, md)
   swwm <- swwm*ct
   swwm[swwm>1] <- 1
-  nulm <- t(apply(swwm[ssid,], 1, quantile, probs = c(0.05, 0.5, 0.95)))
+  nulm <- t(apply(swwm[ssid,], 1, quantile, probs = c(0.05, 0.5, 0.95), na.rm = TRUE))
 
   nulpm <- cbind(qbeta(0.05, ssid, cgwasenv$.IND_SNP_N+1-ssid),
                  qbeta(0.5, ssid, cgwasenv$.IND_SNP_N+1-ssid),
