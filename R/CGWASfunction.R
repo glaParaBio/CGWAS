@@ -690,15 +690,17 @@ step5 <- function(cgwasenv) {
   jpeg(file.path(cgwasenv$.CGWAS_RESULT_PATH, "CGWASminpQQ.jpg"),
        width = 3000, height = 3000, res = 600)
   par(mar = c(3.5, 3.5, 1, 1))
-  plot(NA, xlim = c(0, max(xx)), ylim = c(0, max(c(yyc[1], yyg[1]))),
-       xlab = expression(paste("Expected   ", -Log[10](italic(p)))),
-       ylab = expression(paste("Observed   ", -Log[10](italic(p)))),
-       mgp = c(2, 0.7, 0), las = 1, cex.axis = 0.85, tck = -0.015)
-  points(xx, yyg, pch = 20, col = "#1161C9", cex = 0.6)
-  points(xx, yyc, pch = 20, col = "#FD9001", cex = 0.6)
-  abline(c(0, 1), lwd = 1)
-  dev.off()
-  logOutput("QQ plots of C-GWAS and MinGWAS adjusted P plotted to Results/CGWASminpQQ.jpg\n", cgwasenv = cgwasenv)
+    try({
+      plot(NA, xlim = c(0, max(xx)), ylim = c(0, max(c(yyc[1], yyg[1]))),
+           xlab = expression(paste("Expected   ", -Log[10](italic(p)))),
+           ylab = expression(paste("Observed   ", -Log[10](italic(p)))),
+           mgp = c(2, 0.7, 0), las = 1, cex.axis = 0.85, tck = -0.015)
+      points(xx, yyg, pch = 20, col = "#1161C9", cex = 0.6)
+      points(xx, yyc, pch = 20, col = "#FD9001", cex = 0.6)
+      abline(c(0, 1), lwd = 1)
+      dev.off()
+      logOutput("QQ plots of C-GWAS and MinGWAS adjusted P plotted to Results/CGWASminpQQ.jpg\n", cgwasenv = cgwasenv)
+    })
 
   if (!cgwasenv$.KEEP_EbICoW) {
     unlink(cgwasenv$.CGWAS_iEbICoW_PATH, recursive = TRUE)
